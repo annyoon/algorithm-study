@@ -3,16 +3,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-/**
- * BOJ 17144 ¹Ì¼¼¸ÕÁö ¾È³ç!
- */
+/* BOJ 17144 ë¯¸ì„¸ë¨¼ì§€ ì•ˆë…•! */
 
 public class Main {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
 
 	static int R, C, T, count = 2;
-	static int top, bottom; // °ø±â Ã»Á¤±â À§ÂÊ°ú ¾Æ·¡ÂÊÀÇ Çà ÁÂÇ¥
+	static int top, bottom; // ê³µê¸° ì²­ì •ê¸° ìœ„ìª½ê³¼ ì•„ë˜ìª½ì˜ í–‰ ì¢Œí‘œ
 	static int[][] board;
 
 	public static void main(String[] args) throws IOException {
@@ -33,7 +31,7 @@ public class Main {
 			}
 		}
 
-		// TÃÊ µ¿¾È ¹İº¹
+		// Tì´ˆ ë™ì•ˆ ë°˜ë³µ
 		while (0 < T--) {
 			diffuse();
 			clean();
@@ -42,7 +40,7 @@ public class Main {
 		System.out.println(count);
 	}
 
-	// ¹Ì¼¼¸ÕÁö°¡ 1ÃÊ µ¿¾È È®»êµÈ ÈÄÀÇ Áı »óÅÂ
+	// ë¯¸ì„¸ë¨¼ì§€ê°€ 1ì´ˆ ë™ì•ˆ í™•ì‚°ëœ í›„ì˜ ì§‘ ìƒíƒœ
 	static void diffuse() {
 		int[] dx = { 1, 0, -1, 0 }, dy = { 0, 1, 0, -1 };
 		int[][] tmpBoard = new int[R][C];
@@ -51,7 +49,7 @@ public class Main {
 			for (int col = 0; col < C; col++) {
 				if (board[row][col] > 0) {
 					int dust = board[row][col] / 5;
-					// ÀÎÁ¢ÇÑ ³× ¹æÇâÀ¸·Î È®»ê
+					// ì¸ì ‘í•œ ë„¤ ë°©í–¥ìœ¼ë¡œ í™•ì‚°
 					for (int dir = 0; dir < 4; dir++) {
 						int nRow = row + dx[dir];
 						int nCol = col + dy[dir];
@@ -70,9 +68,9 @@ public class Main {
 			}
 	}
 
-	// °ø±âÃ»Á¤±â°¡ 1ÃÊ µ¿¾È ÀÛµ¿ÇÑ ÈÄÀÇ Áı »óÅÂ
+	// ê³µê¸°ì²­ì •ê¸°ê°€ 1ì´ˆ ë™ì•ˆ ì‘ë™í•œ í›„ì˜ ì§‘ ìƒíƒœ
 	static void clean() {
-		// °ø±âÃ»Á¤±â À§ÂÊ
+		// ê³µê¸°ì²­ì •ê¸° ìœ„ìª½
 		int[] cur1 = { top - 1, 0 };
 		int[] dx1 = { -1, 0, 1, 0 }, dy1 = { 0, 1, 0, -1 };
 		int dir = 0;
@@ -85,14 +83,14 @@ public class Main {
 					cur1[0] = next[0];
 					cur1[1] = next[1];
 				} else {
-					board[cur1[0]][cur1[1]] = 0; // °ø±âÃ»Á¤±â¿¡¼­ ³ª¿À´Â °ø±â
+					board[cur1[0]][cur1[1]] = 0; // ê³µê¸°ì²­ì •ê¸°ì—ì„œ ë‚˜ì˜¤ëŠ” ê³µê¸°
 					break;
 				}
 			else
 				dir++;
 		}
 
-		// °ø±âÃ»Á¤±â ¾Æ·¡ÂÊ
+		// ê³µê¸°ì²­ì •ê¸° ì•„ë˜ìª½
 		int[] cur2 = { bottom + 1, 0 };
 		int[] dx2 = { 1, 0, -1, 0 }, dy2 = { 0, 1, 0, -1 };
 		dir = 0;
@@ -105,7 +103,7 @@ public class Main {
 					cur2[0] = next[0];
 					cur2[1] = next[1];
 				} else {
-					board[cur2[0]][cur2[1]] = 0; // °ø±âÃ»Á¤±â¿¡¼­ ³ª¿À´Â °ø±â
+					board[cur2[0]][cur2[1]] = 0; // ê³µê¸°ì²­ì •ê¸°ì—ì„œ ë‚˜ì˜¤ëŠ” ê³µê¸°
 					break;
 				}
 			else
@@ -113,7 +111,7 @@ public class Main {
 		}
 	}
 
-	// ³²Àº ¹Ì¼¼¸ÕÁö Ä«¿îÆ®
+	// ë‚¨ì€ ë¯¸ì„¸ë¨¼ì§€ ì¹´ìš´íŠ¸
 	static void countDust() {
 		for (int row = 0; row < R; row++)
 			for (int col = 0; col < C; col++)
