@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-/* BOJ 1644 ¼Ò¼öÀÇ ¿¬¼ÓÇÕ */
+/* BOJ 1644 ì†Œìˆ˜ì˜ ì—°ì†í•© */
 
 public class Main {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
