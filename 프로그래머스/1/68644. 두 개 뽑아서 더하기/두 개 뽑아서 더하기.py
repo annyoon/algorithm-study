@@ -1,17 +1,9 @@
-s = set()
+from itertools import combinations
 
 def solution(numbers):
-    combinations(numbers, 0, [])
+    s = set()
+
+    for c in combinations(numbers, 2):
+        s.add(sum(c))
+
     return sorted(list(s))
-
-def combinations(numbers, start, picked):
-    global s
-
-    if len(picked) == 2:
-        s.add(sum(picked))
-        return
-
-    for i in range(start, len(numbers)):
-        picked.append(numbers[i])
-        combinations(numbers, i + 1, picked)
-        picked.pop()
