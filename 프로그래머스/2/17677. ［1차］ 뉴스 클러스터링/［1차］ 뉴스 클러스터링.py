@@ -1,31 +1,33 @@
-import math
-
 def solution(str1, str2):
-    s1 = make_2_word(str1)
-    s2 = make_2_word(str2)
-    print(s1,s2)
-    if s1 == [] and s2 == []:
-        return 65536
-
-    s1_copy = s1.copy()
-    s2_copy = s2.copy()
+    dic1 = makeDic(str1)
+    dic2 = makeDic(str2)
+    i, u = 0, 0
     
-    inter = []
-    for i in s1:
-        if i in s2_copy:
-            inter.append(i)
-            s1_copy.remove(i)
-            s2_copy.remove(i)
+    for d in dic1:
+        if d in dic2:
+            i += min(dic1[d], dic2[d])
+            u += max(dic1[d], dic2[d])
+        else:
+            u += dic1[d]
             
-    union = inter + s1_copy + s2_copy
-
-    answer = math.floor((len(inter) / len(union)) * 65536)
-    return answer
-
-def make_2_word(s):
-    s = s.upper()
-    a = []
-    for i in range(len(s) - 1):
-        if s[i:i + 2].isalpha():
-            a.append(s[i:i + 2])
-    return a
+    for d in dic2:
+        if d not in dic1:
+            u += dic2[d]
+    
+    if u == 0:
+        return 65536
+            
+    return int(float(i) / float(u) * 65536)
+                
+    
+def makeDic(str):
+    dic = {}
+    for i in range(1, len(str)):
+        s = str[i - 1] + str[i]
+        if s.isalpha():
+            if s.upper() in dic:
+                dic[s.upper()] += 1
+            else:
+                dic[s.upper()] = 1  
+    return dic
+    
