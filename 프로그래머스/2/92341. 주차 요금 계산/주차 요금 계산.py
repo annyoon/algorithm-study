@@ -1,39 +1,40 @@
 import math
 
 def solution(fees, records):
-    answer = []
-    dic, dic_time = {}, {}
+    dic = {}
+    dic_fee = {}
     
-    def to_minute(s):
-        return int(s[:2]) * 60 + int(s[3:5])
-    
-    def charge_fees(t):
-        if t <= fees[0]:
-            return fees[1]
+    for record in records:
+        arr = record.split(' ')
+        if arr[1] not in dic or dic[arr[1]] == -1:
+            dic[arr[1]] = int(arr[0][:2]) * 60 + int(arr[0][3:])
         else:
-            return fees[1] + math.ceil((t - fees[0]) / fees[2]) * fees[3]
-        
-    for r in records:
-        time, car_num, stat = r.split(' ')
-        
-        if car_num not in dic:
-            dic[car_num] = to_minute(time)
-        else:
-            if car_num not in dic_time:
-                dic_time[car_num] = to_minute(time) - dic[car_num]
+            tmp = int(arr[0][:2]) * 60 + int(arr[0][3:]) - dic[arr[1]]
+            if arr[1] not in dic_fee:
+                dic_fee[arr[1]] = tmp
             else:
-                dic_time[car_num] += to_minute(time) - dic[car_num]
-            del dic[car_num]
+                dic_fee[arr[1]] += tmp
+            dic[arr[1]] = -1
+    print(dic)
             
     for d in dic:
-        if d not in dic_time:
-            dic_time[d] = 23 * 60 + 59 - dic[d]
+        if dic[d] != -1:
+            tmp = 23 * 60 + 59 - dic[d]
+            if d not in dic_fee:
+                dic_fee[d] = tmp
+            else:
+                dic_fee[d] += tmp
+                
+    dic_fee = dict(sorted(dic_fee.items()))
+    print(dic_fee)
+    
+    result = []
+    
+    for d in dic_fee.values():
+        if d <= fees[0]:
+            result.append(fees[1])
         else:
-            dic_time[d] += 23 * 60 + 59 - dic[d]
-    
-    dic_time_sorted = dict(sorted(dic_time.items()))
-    
-    for t in dic_time_sorted:
-        answer.append(charge_fees(dic_time_sorted[t]))
-    
-    return answer
+            tmp = fees[1] + math.ceil(float(d - fees[0]) / float(fees[2])) * fees[3]
+            result.append(tmp)
+                         
+    return result
