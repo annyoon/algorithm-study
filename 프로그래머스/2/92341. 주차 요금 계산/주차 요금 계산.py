@@ -2,39 +2,37 @@ import math
 
 def solution(fees, records):
     dic = {}
-    dic_fee = {}
+    dic_time = {}
     
     for record in records:
-        arr = record.split(' ')
-        if arr[1] not in dic or dic[arr[1]] == -1:
-            dic[arr[1]] = int(arr[0][:2]) * 60 + int(arr[0][3:])
+        r = record.split(' ')
+        car = r[1]
+        time = int(r[0][:2]) * 60 + int(r[0][3:])
+        
+        if car not in dic or dic[car] == -1:
+            dic[car] = time
         else:
-            tmp = int(arr[0][:2]) * 60 + int(arr[0][3:]) - dic[arr[1]]
-            if arr[1] not in dic_fee:
-                dic_fee[arr[1]] = tmp
+            cal = time - dic[car]
+            if car in dic_time:
+                dic_time[car] += cal
             else:
-                dic_fee[arr[1]] += tmp
-            dic[arr[1]] = -1
-    print(dic)
-            
+                dic_time[car] = cal
+            dic[car] = -1
+        
     for d in dic:
         if dic[d] != -1:
-            tmp = 23 * 60 + 59 - dic[d]
-            if d not in dic_fee:
-                dic_fee[d] = tmp
+            cal = 23 * 60 + 59 - dic[d]
+            if d in dic_time:
+                dic_time[d] += cal
             else:
-                dic_fee[d] += tmp
-                
-    dic_fee = dict(sorted(dic_fee.items()))
-    print(dic_fee)
-    
-    result = []
-    
-    for d in dic_fee.values():
-        if d <= fees[0]:
-            result.append(fees[1])
+                dic_time[d] = cal
+            
+    for d in dic_time:
+        if dic_time[d] <= fees[0]:
+            dic_time[d] = fees[1]
         else:
-            tmp = fees[1] + math.ceil(float(d - fees[0]) / float(fees[2])) * fees[3]
-            result.append(tmp)
-                         
-    return result
+            fee = fees[1] + math.ceil(float(dic_time[d] - fees[0]) / float(fees[2])) * fees[3]
+            dic_time[d] = fee
+            
+    arr = sorted(dic_time.items())
+    return [a[1] for a in arr]
