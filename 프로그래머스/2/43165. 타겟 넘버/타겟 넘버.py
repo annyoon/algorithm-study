@@ -1,29 +1,17 @@
-answer = 0
-sum_numbers = 0
+result = 0
 
 def solution(numbers, target):
-    global answer, sum_numbers
+    solve(numbers, target, 0, 0)
     
-    sum_numbers = sum(numbers)
+    return result
     
-    for d in range(len(numbers) + 1):
-        dfs(numbers, target, 0, d, [])
+def solve(numbers, target, i, num):
+    global result
     
-    return answer
-
-def dfs(numbers, target, start, depth, arr):
-    global answer, sum_numbers
-    
-    if len(arr) == depth:
-        num = sum([numbers[i] for i in arr])
-        tmp = sum_numbers - 2 * (num)
-        
-        if tmp == target:
-            answer += 1
-        
+    if i == len(numbers):
+        if num == target:
+            result += 1
         return
     
-    for i in range(start, len(numbers)):
-        arr.append(i)
-        dfs(numbers, target, i + 1, depth, arr)
-        arr.pop()
+    solve(numbers, target, i + 1, num + numbers[i])
+    solve(numbers, target, i + 1, num - numbers[i])
