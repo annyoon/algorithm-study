@@ -1,29 +1,19 @@
 def solution(new_id):
-    new_id = new_id.lower()
-    tmp = ""
+    answer = ""
 
-    for n in new_id:
-        if n.isalnum() or n == "-" or n == "_" or n == ".":
-            tmp += n
+    for i in new_id.lower():
+        if i.isalnum() or i == "-" or i == "_" or i == ".":
+            if len(answer) == 0 or not (answer[len(answer) - 1] == "." and i == "."):
+                answer += i
 
-    new_id = tmp
+    answer = answer.strip(".")
 
-    while True:
-        tmp = new_id.replace("..", ".")
-        if len(tmp) == len(new_id):
-            break
-        new_id = tmp
+    if len(answer) == 0:
+        answer = "a"
+    elif len(answer) >= 16:
+        answer = answer[:15].strip(".")
 
-    tmp = tmp.lstrip(".")
-    tmp = tmp.rstrip(".")
+    while len(answer) <= 2:
+        answer += answer[len(answer) - 1]
 
-    if len(tmp) == 0:
-        tmp = "a"
-    elif len(tmp) >= 16:
-        tmp = tmp[:15]
-        tmp = tmp.rstrip(".")
-
-    while len(tmp) < 3:
-        tmp += tmp[len(tmp) - 1]
-
-    return tmp
+    return answer
