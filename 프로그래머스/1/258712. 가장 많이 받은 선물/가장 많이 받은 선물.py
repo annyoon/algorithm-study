@@ -1,10 +1,7 @@
 def solution(friends, gifts):
     dic = {}
-    
-    n = 0
-    for f in friends:
-        dic[f] = n
-        n += 1
+    for i, f in list(enumerate(friends)):
+        dic[f] = i
         
     length = len(friends)
     arr = [[0] * length for _ in range(length)]
