@@ -1,33 +1,33 @@
+import math
+
 def solution(str1, str2):
-    dic1 = makeDic(str1)
-    dic2 = makeDic(str2)
-    i, u = 0, 0
+    a, b = 0, 0
+    dic1 = getDict(str1)
+    dic2 = getDict(str2)
     
     for d in dic1:
         if d in dic2:
-            i += min(dic1[d], dic2[d])
-            u += max(dic1[d], dic2[d])
+            a += min(dic1[d], dic2[d])
+            b += max(dic1[d], dic2[d])
         else:
-            u += dic1[d]
+            b += dic1[d]
             
     for d in dic2:
         if d not in dic1:
-            u += dic2[d]
-    
-    if u == 0:
-        return 65536
+            b += dic2[d]
             
-    return int(float(i) / float(u) * 65536)
-                
-    
-def makeDic(str):
+    return 65536 if b == 0 else math.trunc(a / b * 65536)
+
+def getDict(string):
     dic = {}
-    for i in range(1, len(str)):
-        s = str[i - 1] + str[i]
-        if s.isalpha():
-            if s.upper() in dic:
-                dic[s.upper()] += 1
-            else:
-                dic[s.upper()] = 1  
-    return dic
+    string = string.upper()
     
+    for i in range(len(string) - 1):
+        if string[i].isalpha() and string[i + 1].isalpha():
+            tmp = string[i] + string[i + 1]
+            if tmp in dic:
+                dic[tmp] += 1
+            else:
+                dic[tmp] = 1
+                
+    return dic
