@@ -1,19 +1,21 @@
 def solution(board, moves):
+    answer = 0
     arr= []
-    result = 0
     
     for m in moves:
+        m -= 1
+        
         for i in range(len(board)):
-            if board[i][m - 1] != 0:
-                if len(arr):
-                    if arr[len(arr) - 1] == board[i][m - 1]:
+            if board[i][m] != 0:
+                if len(arr) != 0:
+                    if arr[len(arr) - 1] == board[i][m]:
                         arr.pop()
-                        result += 1
+                        answer += 1
                     else:
-                        arr.append(board[i][m - 1])
+                        arr.append(board[i][m])
                 else:
-                    arr.append(board[i][m - 1])
-                board[i][m - 1] = 0
+                    arr.append(board[i][m])
+                board[i][m] = 0
                 break
                 
-    return result * 2
+    return answer * 2
