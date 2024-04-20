@@ -1,24 +1,19 @@
 def solution(dartResult):
-    bonus = {"S": 1, "D": 2, "T": 3}
-    options = [""] * 3
-    scores = []
-    number = ""
-
+    arr = []
+    number = ''
+    alpha = {'S': 1, 'D': 2, 'T': 3}
+    
     for d in dartResult:
-        if not d.isalnum():
-            options[len(scores) - 1] = d
-        elif d.isalpha():
-            scores.append(int(number) ** bonus[d])
-            number = ""
-        else:
+        if d.isdigit():
             number += d
-
-    for i in range(len(options)):
-        if options[i] == "*":
-            scores[i] *= 2
-            if i > 0:
-                scores[i - 1] *= 2
-        elif options[i] == "#":
-            scores[i] *= -1
-
-    return sum(scores)
+        elif d.isalpha():
+            arr.append(int(number) ** alpha[d])
+            number = ''
+        elif d == '*':
+            arr[len(arr) - 1] *= 2
+            if len(arr) > 1:
+                arr[len(arr) -2] *= 2
+        elif d == '#':
+            arr[len(arr) - 1] *= (-1)
+                
+    return sum(arr)
