@@ -2,37 +2,35 @@ import math
 
 def solution(fees, records):
     dic = {}
-    dic_time = {}
+    check = {}
     
     for record in records:
-        r = record.split(' ')
-        car = r[1]
-        time = int(r[0][:2]) * 60 + int(r[0][3:])
-        
-        if car not in dic or dic[car] == -1:
-            dic[car] = time
-        else:
-            cal = time - dic[car]
-            if car in dic_time:
-                dic_time[car] += cal
+        time = int(record[:2]) * 60 + int(record[3:5])
+        car = record[6:10]
+        if car in check and check[car] != -1:
+            time -= check[car]
+            check[car] = -1
+            
+            if car in dic:
+                dic[car] += time
             else:
-                dic_time[car] = cal
-            dic[car] = -1
-        
+                dic[car] = time
+        else:
+            check[car] = time
+            
+    for car in check:
+        if check[car] != -1:
+            time = 23 * 60 + 59
+            time -= check[car]
+            if car in dic:
+                dic[car] += time
+            else:
+                dic[car] = time
+            
     for d in dic:
-        if dic[d] != -1:
-            cal = 23 * 60 + 59 - dic[d]
-            if d in dic_time:
-                dic_time[d] += cal
-            else:
-                dic_time[d] = cal
-            
-    for d in dic_time:
-        if dic_time[d] <= fees[0]:
-            dic_time[d] = fees[1]
+        if dic[d] <= fees[0]:
+            dic[d] = fees[1]
         else:
-            fee = fees[1] + math.ceil(float(dic_time[d] - fees[0]) / float(fees[2])) * fees[3]
-            dic_time[d] = fee
-            
-    arr = sorted(dic_time.items())
-    return [a[1] for a in arr]
+            dic[d] = fees[1] + math.ceil((dic[d] - fees[0]) / fees[2]) * fees[3]
+
+    return [v for v in dict(sorted(dic.items())).values()]
