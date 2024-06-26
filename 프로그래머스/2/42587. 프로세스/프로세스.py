@@ -1,17 +1,16 @@
 from collections import deque
 
 def solution(priorities, location):
-    q = deque([p for p in list(enumerate(priorities))])
-    count = 0
+    p = max(priorities)
+    q = deque(list(enumerate(priorities)))
+    count = 1
     
-    while len(q) > 1:
-        elem = q.popleft()
-        if elem[1] < max([e[1] for e in q]):
-            q.append(elem)
-        else:
-            count += 1
-            if elem[0] == location:
+    while True:
+        cur = q.popleft()
+        if cur[1] == p:
+            if cur[0] == location:
                 return count
-            
-    return count + 1
-            
+            p = max([n[1] for n in q])
+            count += 1
+        else:
+            q.append(cur)
