@@ -1,17 +1,15 @@
-result = 0
+count = 0
 
 def solution(numbers, target):
-    solve(numbers, target, 0, 0)
+    solve(0, 0, numbers, target)
+    return count
     
-    return result
+def solve(cur, idx, numbers, target):
+    global count
     
-def solve(numbers, target, i, num):
-    global result
-    
-    if i == len(numbers):
-        if num == target:
-            result += 1
+    if idx >= len(numbers):
+        if cur == target:
+            count += 1
         return
-    
-    solve(numbers, target, i + 1, num + numbers[i])
-    solve(numbers, target, i + 1, num - numbers[i])
+    solve(cur + numbers[idx], idx + 1, numbers, target)
+    solve(cur - numbers[idx], idx + 1, numbers, target)
